@@ -1,0 +1,31 @@
+InitLinkedList() - Initialized the Linked List OK
+
+FreeLinkedList() - Free the Linked List Memory OK
+
+AddFirst() - Adds an element to the beggining of the Linked List OK
+
+AddLast() - Adds an element to the end of the Linked List OK
+
+AddIndex() - Adds an element into the list in a given index OK
+
+Contains() - Returns True if the Linked List has a given Element OK
+
+PeekFirst() - Returns the First element in the Linked List OK
+
+PeekLast() - Returns the Last element in the Linked List OK
+
+IndexOf() - Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not contain the element. OK
+
+LastIndexOf() - returns the index of the last occurrence of the specified element in this list, or -1 if this list does not contain the element. OK
+
+Size() - This method returns the number of elements in this list. OK
+
+RemoveFirst() - Removes the First element OK
+
+RemoveLast() - Removes the Last element OK
+
+RemoveIndex() - Removes an element on a given index OK
+
+Clear() - Removes all elements from the Linked List OK
+
+PrintLinkedList() - Print the Linked List in a formatted way OK

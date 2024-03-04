@@ -162,6 +162,10 @@ int Peek(Queue *queue){
 
 void Clear(Queue **p){
 	Queue *queue = *p;
+	if(queue==NULL){
+		printf("This Queue has not been initialized!\n");
+		return;
+	}
 	while(queue->next!=NULL){
 		Remove(p);
 	}
@@ -169,6 +173,10 @@ void Clear(Queue **p){
 
 void FreeQueue(Queue **p){
 	Queue *queue = *p;
+	if(queue==NULL){
+		printf("This Queue has not been initialized!\n");
+		return;
+	}
 	Clear(p);
 	free(queue);
 	(*p)=NULL;

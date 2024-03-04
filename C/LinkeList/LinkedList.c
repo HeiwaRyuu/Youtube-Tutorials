@@ -179,7 +179,7 @@ void AddIndex(LinkedList **p, int index, int value){
 		printf("Linked List has not been initialized!\n");
 		return;
 	}
-	if(llst->next==0 && index==0){
+	if(llst->value==0 && index==0){
 		AddFirst(p, value);
 		return;
 	}

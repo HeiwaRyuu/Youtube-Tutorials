@@ -79,6 +79,7 @@ void InitStack(Stack **p){
         printf("This stack has already been initialized!\n");
         return;
     }
+
     Stack *temp = (Stack*) malloc(sizeof(Stack));
     if (temp==NULL){
         printf("Malloc Returned NULL in Initializing Stack...\n");

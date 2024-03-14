@@ -58,7 +58,7 @@ void MaxHeapify(int *arr, int size) {
 
 void HeapSort(int *arr, int size) {
   int min = 0;
-  while (min < 2) {
+  while (min < size) {
     MaxHeapify(arr, size - min);
     min++;
     PrintArr(arr, size);

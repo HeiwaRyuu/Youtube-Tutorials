@@ -1,26 +1,34 @@
 #include <stdio.h>
 
 #define NELEMEN(x) (sizeof(x) / sizeof(x[0]))
+
 void PrintArr(int *arr, int size);
 void HeapSort(int *arr, int size);
 void MaxHeapify(int *arr, int size);
+void Heapify(int *arr, int size, int i);
 void swap(int *arr, int x, int y);
 
 int main() {
-  int arr[] = {0, 3, 4, 4, 1};
-  int arr2[] = {0, 5, 2, 3, 7, 9, 8};
-  int arr3[] = {3, 4, 1, -2, -33, 43, 1023, 32, 87, 23, 89, 2, 8, 9, 337};
+  int arr[] = {0, 3, 8, 4, 1};
+  int arr2[] = {34, 89, 102, 337, -2, -78, 3, 1, 9, 7, 22, 34, 89};
+  int arr3[] = {335, 336, 337};
+  int arr4[] = {337};
   printf("Original Arrays:\n");
   PrintArr(arr, NELEMEN(arr));
-  // PrintArr(arr2, NELEMEN(arr2));
-  //  PrintArr(arr3, NELEMEN(arr3));
+  PrintArr(arr2, NELEMEN(arr2));
+  PrintArr(arr3, NELEMEN(arr3));
+  PrintArr(arr4, NELEMEN(arr4));
+
   HeapSort(arr, NELEMEN(arr));
-  // HeapSort(arr2, NELEMEN(arr2));
-  // HeapSort(arr3, NELEMEN(arr3));
-  printf("Sorted Arrays:\n");
+  HeapSort(arr2, NELEMEN(arr2));
+  HeapSort(arr3, NELEMEN(arr3));
+  HeapSort(arr4, NELEMEN(arr4));
+
+  printf("\nSorted Arrays:\n");
   PrintArr(arr, NELEMEN(arr));
-  // PrintArr(arr2, NELEMEN(arr2));
-  // PrintArr(arr3, NELEMEN(arr3));
+  PrintArr(arr2, NELEMEN(arr2));
+  PrintArr(arr3, NELEMEN(arr3));
+  PrintArr(arr4, NELEMEN(arr4));
 
   return 0;
 }
@@ -40,17 +48,14 @@ void swap(int *arr, int x, int y) {
 }
 
 void Heapify(int *arr, int size, int i) {
-  int left_child = i * 2 + 1;
-  int right_child = i * 2 + 2;
   int biggest = i;
-  if (left_child >= size) {
-    return;
+  int left_child = 2 * i + 1;
+  int right_child = 2 * i + 2;
+  if (left_child < size && arr[left_child] > arr[biggest]) {
+    biggest = left_child;
   }
   if (right_child < size && arr[right_child] > arr[biggest]) {
     biggest = right_child;
-  }
-  if (left_child < size && arr[left_child] > arr[biggest]) {
-    biggest = left_child;
   }
   if (biggest != i) {
     swap(arr, biggest, i);
@@ -69,5 +74,7 @@ void HeapSort(int *arr, int size) {
     MaxHeapify(arr, i + 1);
     PrintArr(arr, size);
     swap(arr, 0, i);
+    PrintArr(arr, size);
   }
+  printf("\n\n");
 }

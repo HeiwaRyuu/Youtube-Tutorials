@@ -7,12 +7,20 @@ void MaxHeapify(int *arr, int size);
 void swap(int *arr, int x, int y);
 
 int main() {
-  // int arr[] = {3, 4, 1, -2, -33, 43, 1023, 32, 87, 23, 89, 2, 8, 9, 337};
-  int arr[] = {0, 5, 2, 3, 7, 9, 8};
+  int arr[] = {0, 3, 4, 4, 1};
+  int arr2[] = {0, 5, 2, 3, 7, 9, 8};
+  int arr3[] = {3, 4, 1, -2, -33, 43, 1023, 32, 87, 23, 89, 2, 8, 9, 337};
+  printf("Original Arrays:\n");
   PrintArr(arr, NELEMEN(arr));
-  // swap(arr, 9, 4);
+  // PrintArr(arr2, NELEMEN(arr2));
+  //  PrintArr(arr3, NELEMEN(arr3));
   HeapSort(arr, NELEMEN(arr));
+  // HeapSort(arr2, NELEMEN(arr2));
+  // HeapSort(arr3, NELEMEN(arr3));
+  printf("Sorted Arrays:\n");
   PrintArr(arr, NELEMEN(arr));
+  // PrintArr(arr2, NELEMEN(arr2));
+  // PrintArr(arr3, NELEMEN(arr3));
 
   return 0;
 }
@@ -26,7 +34,6 @@ void PrintArr(int *arr, int size) {
 }
 
 void swap(int *arr, int x, int y) {
-  printf("Swap: %d at index %d with %d at index %d\n", arr[x], x, arr[y], y);
   int temp = arr[x];
   arr[x] = arr[y];
   arr[y] = temp;
@@ -35,34 +42,32 @@ void swap(int *arr, int x, int y) {
 void Heapify(int *arr, int size, int i) {
   int left_child = i * 2 + 1;
   int right_child = i * 2 + 2;
-  int biggest = left_child;
+  int biggest = i;
   if (left_child >= size) {
     return;
   }
-  if (right_child < size) {
-    if (arr[right_child] > arr[biggest]) {
-      biggest = right_child;
-    }
+  if (right_child < size && arr[right_child] > arr[biggest]) {
+    biggest = right_child;
   }
-  if (arr[biggest] > arr[i]) {
+  if (left_child < size && arr[left_child] > arr[biggest]) {
+    biggest = left_child;
+  }
+  if (biggest != i) {
     swap(arr, biggest, i);
+    Heapify(arr, size, biggest);
   }
 }
 
 void MaxHeapify(int *arr, int size) {
-  for (int i = size; i >= 0; i--) {
+  for (int i = size / 2 - 1; i >= 0; i--) {
     Heapify(arr, size, i);
   }
-  swap(arr, 0, size - 1);
 }
 
 void HeapSort(int *arr, int size) {
-  int min = 0;
-  while (min < size) {
-    MaxHeapify(arr, size - min);
-    min++;
+  for (int i = size - 1; i >= 0; i--) {
+    MaxHeapify(arr, i + 1);
     PrintArr(arr, size);
-    printf("\n");
+    swap(arr, 0, i);
   }
-  printf("End of HeapSort function...\n\n");
 }

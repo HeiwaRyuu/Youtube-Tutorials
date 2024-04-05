@@ -66,6 +66,10 @@ int main(int argc, char **argsv) {
   ConnectNodes(graph, "A", "G");
   PrintGraph(graph);
 
+  printf("Trying to add a connection that already exists ('A' to 'E')\n");
+  ConnectNodes(graph, "A", "E");
+  PrintGraph(graph);
+
   printf("Adding a Connection Between nodes 'B' and 'C', 'F', 'G', 'H':\n");
   ConnectNodes(graph, "B", "C");
   ConnectNodes(graph, "B", "F");
@@ -158,7 +162,7 @@ int main(int argc, char **argsv) {
 
 void PrintLLst(LLst *llst) {
   if (llst == NULL) {
-    printf("Current Linked List is empty!");
+    printf("Current Linked List is empty!(PrintLLst)");
     return;
   }
   while (llst->next != NULL) {
@@ -170,7 +174,7 @@ void PrintLLst(LLst *llst) {
 
 void PrintGraph(UGraph *graph) {
   if (graph == NULL) {
-    printf("Current graph has no nodes!\n");
+    printf("Current graph has no nodes!(PrintGraph)\n");
     return;
   }
   while (graph->next != NULL) {
@@ -218,15 +222,22 @@ void AddNode(UGraph **p, char *node) {
     return;
   }
   // ADD A NEW NODE TO INITIALIZED GRAPH
-  // First CHECKING IF NODE ALREADY EXISTS IN GRAPH (IF SO, DO NOT ADD!)
-  if (CheckIfNodeExists(graph, node)) {
+  UGraph *aux = graph;
+  while (aux->next != NULL) {
+    // CHECKING IF NODE ALREADY EXISTS IN GRAPH (IF SO, DO NOT ADD!)
+    if (aux->node_name->value == node) {
+      printf("Node '%s' already present in the current graph! (AddNode):\n",
+             node);
+      return;
+    }
+    aux = aux->next;
+  }
+  // CHECKING IF NODE ALREADY EXISTS IN THE LAST POSITION ON THE GRAPH'S LINKED
+  // LIST
+  if (aux->node_name->value == node) {
     printf("Node '%s' already present in the current graph! (AddNode):\n",
            node);
     return;
-  }
-  UGraph *aux = graph;
-  while (aux->next != NULL) {
-    aux = aux->next;
   }
   InitGraphNode(&aux->next, node);
 }
@@ -254,12 +265,24 @@ void AddToEndLLst(LLst **p, char *value) {
 
   LLst *aux = llst;
   while (aux->next != NULL) {
+    // CHECKING IF CONNECTION ALREADY EXISTS
+    if (aux->value == value) {
+      printf("Connection from '%s' to '%s' already exists!(AddToEndLLst)\n",
+             llst->value, value);
+      return;
+    }
     aux = aux->next;
+  }
+  // IF ALREADY EXISTING CONNECTION IS AT THE LAST ELEMENT
+  if (aux->value == value) {
+    printf("Connection from '%s' to '%s' already exists!(AddToEndLLst)\n",
+           llst->value, value);
+    return;
   }
 
   LLst *temp = (LLst *)malloc(sizeof(LLst));
   if (temp == NULL) {
-    printf("Error in Malloc InitLLst\n");
+    printf("Error in Malloc (AddToEndLLst)\n");
     return;
   }
   temp->value = value;
@@ -288,16 +311,20 @@ void AddConnectionLLst(UGraph *graph, char *node1, char *node2) {
     graph = graph->next;
   }
   if (flag_node1 == 0) {
-    printf("There is no such node '%s' in the current graph!\n", node1);
+    printf(
+        "There is no such node '%s' in the current graph!(AddConnectionLLst)\n",
+        node1);
   }
   if (flag_node2 == 0) {
-    printf("There is no such node '%s' in the current graph!\n", node2);
+    printf(
+        "There is no such node '%s' in the current graph!(AddConnectionLLst)\n",
+        node2);
   }
 }
 
 void ConnectNodes(UGraph *graph, char *node1, char *node2) {
   if (graph == NULL) {
-    printf("Current Graph has no nodes! (ConnectNodes)\n");
+    printf("Current Graph has no nodes!(ConnectNodes)\n");
     return;
   }
   // EFFECTIVELY CONNECTING THE NODES
@@ -308,7 +335,7 @@ void ConnectNodes(UGraph *graph, char *node1, char *node2) {
 void RemoveFromLLst(LLst **p, char *node) {
   LLst *llst = *p;
   if (llst == NULL) {
-    printf("Current Linked List is empty! (RemoveFromLLst)\n");
+    printf("Current Linked List is empty!(RemoveFromLLst)\n");
     return;
   }
   while (llst->next != NULL) {
@@ -320,13 +347,13 @@ void RemoveFromLLst(LLst **p, char *node) {
     }
     llst = llst->next;
   }
-  printf("No node named '%s' to remove from LLst! (RemoveFromLLst)\n", node);
+  printf("No node named '%s' to remove from LLst!(RemoveFromLLst)\n", node);
 }
 
 void RemoveConnection(UGraph **p, char *node1, char *node2) {
   UGraph *graph = *p;
   if (graph == NULL) {
-    printf("Current Graph has no nodes! (RemoveConnection)\n");
+    printf("Current Graph has no nodes!(RemoveConnection)\n");
     return;
   }
   int flag_node1 = 0;
@@ -350,14 +377,14 @@ void RemoveConnection(UGraph **p, char *node1, char *node2) {
     }
     graph = graph->next;
   }
-  printf("No connection between '%s' and '%s'! (RemoveConnection)\n", node1,
+  printf("No connection between '%s' and '%s'!(RemoveConnection)\n", node1,
          node2);
 }
 
 void RemoveNode(UGraph **p, char *node) {
   UGraph *graph = *p;
   if (graph == NULL) {
-    printf("Current Graph has no nodes! (RemoveNode)\n");
+    printf("Current Graph has no nodes!(RemoveNode)\n");
     return;
   }
   if (graph->node_name->value == node) {
@@ -387,18 +414,18 @@ void RemoveNode(UGraph **p, char *node) {
     }
     graph = graph->next;
   }
-  printf("No node named '%s' in current graph! (RemoveNode)\n", node);
+  printf("No node named '%s' in current graph!(RemoveNode)\n", node);
 }
 
 void FreeGraph(UGraph **p) {
   UGraph *graph = *p;
   if (graph == NULL) {
-    printf("Current Graph has no nodes! (FreeGraph)\n");
+    printf("Current Graph has no nodes!(FreeGraph)\n");
     return;
   }
   UGraph *aux = graph->next;
   while (graph->next != NULL) {
-    printf("FREEING UP NODE '%s'...\n", graph->node_name->value);
+    printf("Freeing Up Node: '%s'...\n", graph->node_name->value);
     RemoveNode(p, graph->node_name->value);
     graph = aux;
     aux = graph->next;
